@@ -1,28 +1,22 @@
-import { Box } from "@mui/material";
-import { DataGrid, Toolbar, ToolbarButton } from '@mui/x-data-grid';
+import { Box,Typography,useTheme } from "@mui/material";
+import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from "../../theme";
-import { mockDataContacts } from "../../data/mockData";
+import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
-import { useTheme } from "@mui/material";
-//TOOLBAR NOT WORKING
-
-const Contacts = () => {
+const Invoices = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
-        { field: "id", headerName: "ID", flex: 0.5 },
-        { field: "registrarId", headerName: "Registrar ID" },
+        { field: "id", headerName: "ID"},
         { field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell" },
-        { field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left" },
         { field: "phone", headerName: "Phone Number", flex: 1 },
         { field: "email", headerName: "Email", flex: 1 },
-        { field: "address", headerName: "Address", flex: 1 },
-        { field: "city", headerName: "City", flex: 1 },
-        { field: "zipCode", headerName: "ZipCode", flex: 1 },
+        { field: "cost", headerName: "Cost", flex: 1, renderCell:(params)=><Typography color={colors.greenAccent[500]}>${params.row.cost}</Typography> },
+        { field: "date", headerName: "Date", flex: 1 },
     ]
     return (
         <Box m="20px">
-            <Header title="Contacts" subtitle="List of Contacts for Future Reference"></Header>
+            <Header title="Invoices" subtitle="List of Invoice Balances"></Header>
             <Box
                 m="40px 0 0 0 "
                 height="75vh"
@@ -47,18 +41,21 @@ const Contacts = () => {
                         borderTop: "none",
                         backgroundColor: colors.blueAccent[700],
                     },
-                    "& .MuiData-toolbarContainer .MuiButton-text": {
-                        color: `${colors.grey[100]} !important`,
+                    "& .MuiTypography-root":{
+                        marginTop:"12px",
+                    },
+                    "& .MuiCheckbox-root": {
+                        color: colors.greenAccent[200]+ " !important",
                     },
                 }
                 }>
                 <DataGrid
-                    rows={mockDataContacts}
+                checkboxSelection
+                    rows={mockDataInvoices}
                     columns={columns}
-                    slots={{ toolbar: Toolbar }}
                 />
             </Box>
         </Box>
     )
 }
-export default Contacts;
+export default Invoices;
